@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quiz</title>
-<link rel="stylesheet" href="style.css">
+<title>World Capitals Quiz</title>
 <style>
 body{
     margin:0;
@@ -12,12 +11,15 @@ body{
     background:#f4f6f8;
 }
 header{
+    position: sticky;
+    top:0;
     background:#1e88e5;
     color:white;
     text-align:center;
     padding:20px;
     font-size:22px;
     font-weight:bold;
+    z-index:1000;
 }
 .container{
     padding:20px;
@@ -33,7 +35,10 @@ header{
     margin-bottom:10px;
     cursor:pointer;
     border:2px solid transparent;
-    transition:0.3s;
+    transition:0.3s all;
+}
+.option:hover{
+    background:#e3f2fd;
 }
 .option.correct{
     background:#e8f5e9;
@@ -53,6 +58,7 @@ button{
     font-size:16px;
     cursor:pointer;
     margin-top:15px;
+    transition:0.3s;
 }
 button:hover{
     background:#1565c0;
@@ -62,44 +68,68 @@ button:hover{
     font-size:20px;
     margin-top:20px;
 }
+.progress-container{
+    background:#ccc;
+    border-radius:8px;
+    height:20px;
+    width:100%;
+    margin-bottom:15px;
+}
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:#1e88e5;
+    border-radius:8px;
+    transition:0.5s;
+}
 </style>
 </head>
-
 <body>
 
 <header id="header">🌍 Quiz</header>
 
 <div class="container">
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div id="progressBar" class="progress-bar"></div>
+    </div>
+
+    <!-- Quiz Area -->
     <div id="quizArea">
         <div class="question" id="question"></div>
         <div id="options"></div>
     </div>
+
+    <!-- Result -->
     <div class="result" id="result" style="display:none;"></div>
-    <button id="restartBtn" style="display:none;" onclick="restartQuiz()">Play Again</button>
+    <button id="restartBtn" style="display:none;" onclick="restartQuiz()">🔄 Play Again</button>
     <button onclick="location.href='index.html'" style="background:#43a047;">⬅️ Back to Continent Selection</button>
+
 </div>
 
+<!-- Data + Script -->
 <script src="data.js"></script>
 <script>
 let selectedContinent = localStorage.getItem("selectedContinent");
 if(!selectedContinent){
-    // No continent selected → back to index
     window.location.href = "index.html";
 }
 
-document.getElementById("header").innerText = `${selectedContinent} Capitals Quiz`;
+// Pro Features
+let totalQuestions = worldData[selectedContinent].length;
+let correctSound = new Audio("sounds/correct.mp3");
+let wrongSound = new Audio("sounds/wrong.mp3");
 
 let remainingCountries = [...worldData[selectedContinent]];
 let score = 0;
 
-function shuffle(array){
-    return array.sort(()=>Math.random()-0.5);
-}
+function shuffle(array){ return array.sort(()=>Math.random()-0.5); }
 
 function nextQuestion(){
     if(remainingCountries.length===0){
         document.getElementById("quizArea").style.display="none";
-        document.getElementById("result").innerText = `🎉 ${selectedContinent} Quiz Completed!\nScore: ${score}/${worldData[selectedContinent].length}`;
+        document.getElementById("result").innerText = `🎉 ${selectedContinent} Quiz Completed!\nScore: ${score}/${totalQuestions}`;
         document.getElementById("result").style.display="block";
         document.getElementById("restartBtn").style.display="block";
         return;
@@ -107,19 +137,17 @@ function nextQuestion(){
 
     document.getElementById("quizArea").style.display="block";
 
-    // Pick random country
     let idx = Math.floor(Math.random()*remainingCountries.length);
     let current = remainingCountries.splice(idx,1)[0];
 
+    document.getElementById("header").innerText = `🌍 ${selectedContinent} Quiz`;
     document.getElementById("question").innerText = `What is the capital of ${current.country}?`;
 
-    // Create options
     let options = [current.capital];
     while(options.length<4){
         let rand = worldData[selectedContinent][Math.floor(Math.random()*worldData[selectedContinent].length)].capital;
         if(!options.includes(rand)) options.push(rand);
     }
-
     options = shuffle(options);
 
     const optionsDiv = document.getElementById("options");
@@ -132,19 +160,28 @@ function nextQuestion(){
         div.onclick = ()=>checkAnswer(div,opt,current.capital);
         optionsDiv.appendChild(div);
     });
+
+    // Update progress bar
+    let done = totalQuestions - remainingCountries.length;
+    let progressPercent = (done/totalQuestions)*100;
+    document.getElementById("progressBar").style.width = progressPercent + "%";
 }
 
 function checkAnswer(el, selected, correct){
     document.querySelectorAll(".option").forEach(o=>o.onclick=null);
+
     if(selected===correct){
         el.classList.add("correct");
         score++;
+        correctSound.play();
     } else {
         el.classList.add("wrong");
+        wrongSound.play();
         document.querySelectorAll(".option").forEach(o=>{
             if(o.innerText===correct) o.classList.add("correct");
         });
     }
+
     setTimeout(nextQuestion,900);
 }
 
@@ -153,6 +190,8 @@ function restartQuiz(){
     score=0;
     document.getElementById("result").style.display="none";
     document.getElementById("restartBtn").style.display="none";
+    document.getElementById("quizArea").style.display="block";
+    document.getElementById("progressBar").style.width = "0%";
     nextQuestion();
 }
 
