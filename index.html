@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asia Capitals MCQ</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f4f6f8;
+}
+
+header {
+    text-align: center;
+    padding: 15px;
+    background: #1e88e5;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.tabs {
+    display: flex;
+}
+
+.tab {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    background: #e0e0e0;
+    font-weight: bold;
+}
+
+.tab.active {
+    background: white;
+    border-bottom: 3px solid #1e88e5;
+}
+
+.container {
+    padding: 15px;
+}
+
+.hidden {
+    display: none;
+}
+
+.list-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.question {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.option {
+    padding: 12px;
+    background: white;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.option.correct {
+    border-color: green;
+    background: #e8f5e9;
+}
+
+.option.wrong {
+    border-color: red;
+    background: #ffebee;
+}
+
+.result {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+button {
+    padding: 12px;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    background: #1e88e5;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<header>Asia Capitals MCQ Game</header>
+
+<div class="tabs">
+    <div class="tab active" onclick="showTab('study')">📖 Study</div>
+    <div class="tab" onclick="showTab('game')">🎮 Game</div>
+</div>
+
+<div class="container">
+
+    <!-- Study Tab -->
+    <div id="study">
+        <div id="studyList"></div>
+    </div>
+
+    <!-- Game Tab -->
+    <div id="game" class="hidden">
+        <div id="quizArea">
+            <div class="question" id="question"></div>
+            <div id="options"></div>
+        </div>
+        <div class="result hidden" id="finalResult"></div>
+        <button class="hidden" id="restartBtn" onclick="restartGame()">Play Again</button>
+    </div>
+
+</div>
+
+<script>
+const countries = [
+{country:"Bangladesh", capital:"Dhaka"},
+{country:"India", capital:"New Delhi"},
+{country:"Pakistan", capital:"Islamabad"},
+{country:"Nepal", capital:"Kathmandu"},
+{country:"Bhutan", capital:"Thimphu"},
+{country:"Sri Lanka", capital:"Sri Jayawardenepura Kotte"},
+{country:"Maldives", capital:"Male"},
+{country:"China", capital:"Beijing"},
+{country:"Japan", capital:"Tokyo"},
+{country:"South Korea", capital:"Seoul"},
+{country:"North Korea", capital:"Pyongyang"},
+{country:"Thailand", capital:"Bangkok"},
+{country:"Malaysia", capital:"Kuala Lumpur"},
+{country:"Indonesia", capital:"Jakarta"},
+{country:"Vietnam", capital:"Hanoi"},
+{country:"Philippines", capital:"Manila"},
+{country:"Myanmar", capital:"Naypyidaw"},
+{country:"Cambodia", capital:"Phnom Penh"},
+{country:"Laos", capital:"Vientiane"},
+{country:"Singapore", capital:"Singapore"},
+{country:"Afghanistan", capital:"Kabul"},
+{country:"Iran", capital:"Tehran"},
+{country:"Iraq", capital:"Baghdad"},
+{country:"Saudi Arabia", capital:"Riyadh"},
+{country:"UAE", capital:"Abu Dhabi"},
+{country:"Qatar", capital:"Doha"},
+{country:"Oman", capital:"Muscat"},
+{country:"Kuwait", capital:"Kuwait City"},
+{country:"Yemen", capital:"Sana'a"},
+{country:"Jordan", capital:"Amman"},
+{country:"Israel", capital:"Jerusalem"},
+{country:"Turkey", capital:"Ankara"},
+{country:"Mongolia", capital:"Ulaanbaatar"}
+];
+
+let remaining = [];
+let score = 0;
+
+function showTab(tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.container > div').forEach(d => d.classList.add('hidden'));
+
+    if(tab === 'study') {
+        document.getElementById('study').classList.remove('hidden');
+        document.querySelectorAll('.tab')[0].classList.add('active');
+    } else {
+        document.getElementById('game').classList.remove('hidden');
+        document.querySelectorAll('.tab')[1].classList.add('active');
+        if(remaining.length === 0) startGame();
+    }
+}
+
+function loadStudy() {
+    const list = document.getElementById('studyList');
+    countries.forEach(c => {
+        const div = document.createElement('div');
+        div.className = "list-item";
+        div.textContent = `${c.country} — ${c.capital}`;
+        list.appendChild(div);
+    });
+}
+
+function startGame() {
+    remaining = [...countries];
+    score = 0;
+    document.getElementById('finalResult').classList.add('hidden');
+    document.getElementById('restartBtn').classList.add('hidden');
+    nextQuestion();
+}
+
+function nextQuestion() {
+    if(remaining.length === 0) {
+        document.getElementById('quizArea').classList.add('hidden');
+        document.getElementById('finalResult').textContent =
+            `🎉 Completed! Your Score: ${score}/${countries.length}`;
+        document.getElementById('finalResult').classList.remove('hidden');
+        document.getElementById('restartBtn').classList.remove('hidden');
+        return;
+    }
+
+    document.getElementById('quizArea').classList.remove('hidden');
+
+    const index = Math.floor(Math.random() * remaining.length);
+    const current = remaining.splice(index,1)[0];
+
+    document.getElementById('question').textContent =
+        `What is the capital of ${current.country}?`;
+
+    let options = [current.capital];
+    while(options.length < 4) {
+        const rand = countries[Math.floor(Math.random() * countries.length)].capital;
+        if(!options.includes(rand)) options.push(rand);
+    }
+
+    options.sort(() => Math.random() - 0.5);
+
+    const optionsDiv = document.getElementById('options');
+    optionsDiv.innerHTML = "";
+
+    options.forEach(opt => {
+        const div = document.createElement('div');
+        div.className = "option";
+        div.textContent = opt;
+        div.onclick = () => checkAnswer(div, opt, current.capital);
+        optionsDiv.appendChild(div);
+    });
+}
+
+function checkAnswer(element, selected, correct) {
+    const all = document.querySelectorAll('.option');
+    all.forEach(o => o.onclick = null);
+
+    if(selected === correct) {
+        element.classList.add('correct');
+        score++;
+    } else {
+        element.classList.add('wrong');
+        all.forEach(o => {
+            if(o.textContent === correct) o.classList.add('correct');
+        });
+    }
+
+    setTimeout(nextQuestion, 900);
+}
+
+function restartGame() {
+    startGame();
+}
+
+loadStudy();
+</script>
+
+</body>
+</html>
