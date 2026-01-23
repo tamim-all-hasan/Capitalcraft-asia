@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f6f8;
+}
+header{
+    background:#1e88e5;
+    color:white;
+    text-align:center;
+    padding:20px;
+    font-size:22px;
+    font-weight:bold;
+}
+.container{
+    padding:20px;
+}
+.question{
+    font-size:22px;
+    margin-bottom:20px;
+}
+.option{
+    background:white;
+    padding:15px;
+    border-radius:8px;
+    margin-bottom:10px;
+    cursor:pointer;
+    border:2px solid transparent;
+    transition:0.3s;
+}
+.option.correct{
+    background:#e8f5e9;
+    border-color:green;
+}
+.option.wrong{
+    background:#ffebee;
+    border-color:red;
+}
+button{
+    padding:12px;
+    width:100%;
+    border:none;
+    border-radius:8px;
+    background:#1e88e5;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    margin-top:15px;
+}
+button:hover{
+    background:#1565c0;
+}
+.result{
+    text-align:center;
+    font-size:20px;
+    margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<header id="header">🌍 Quiz</header>
+
+<div class="container">
+    <div id="quizArea">
+        <div class="question" id="question"></div>
+        <div id="options"></div>
+    </div>
+    <div class="result" id="result" style="display:none;"></div>
+    <button id="restartBtn" style="display:none;" onclick="restartQuiz()">Play Again</button>
+    <button onclick="location.href='index.html'" style="background:#43a047;">⬅️ Back to Continent Selection</button>
+</div>
+
+<script src="data.js"></script>
+<script>
+let selectedContinent = localStorage.getItem("selectedContinent");
+if(!selectedContinent){
+    // No continent selected → back to index
+    window.location.href = "index.html";
+}
+
+document.getElementById("header").innerText = `${selectedContinent} Capitals Quiz`;
+
+let remainingCountries = [...worldData[selectedContinent]];
+let score = 0;
+
+function shuffle(array){
+    return array.sort(()=>Math.random()-0.5);
+}
+
+function nextQuestion(){
+    if(remainingCountries.length===0){
+        document.getElementById("quizArea").style.display="none";
+        document.getElementById("result").innerText = `🎉 ${selectedContinent} Quiz Completed!\nScore: ${score}/${worldData[selectedContinent].length}`;
+        document.getElementById("result").style.display="block";
+        document.getElementById("restartBtn").style.display="block";
+        return;
+    }
+
+    document.getElementById("quizArea").style.display="block";
+
+    // Pick random country
+    let idx = Math.floor(Math.random()*remainingCountries.length);
+    let current = remainingCountries.splice(idx,1)[0];
+
+    document.getElementById("question").innerText = `What is the capital of ${current.country}?`;
+
+    // Create options
+    let options = [current.capital];
+    while(options.length<4){
+        let rand = worldData[selectedContinent][Math.floor(Math.random()*worldData[selectedContinent].length)].capital;
+        if(!options.includes(rand)) options.push(rand);
+    }
+
+    options = shuffle(options);
+
+    const optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML="";
+
+    options.forEach(opt=>{
+        const div = document.createElement("div");
+        div.className="option";
+        div.innerText = opt;
+        div.onclick = ()=>checkAnswer(div,opt,current.capital);
+        optionsDiv.appendChild(div);
+    });
+}
+
+function checkAnswer(el, selected, correct){
+    document.querySelectorAll(".option").forEach(o=>o.onclick=null);
+    if(selected===correct){
+        el.classList.add("correct");
+        score++;
+    } else {
+        el.classList.add("wrong");
+        document.querySelectorAll(".option").forEach(o=>{
+            if(o.innerText===correct) o.classList.add("correct");
+        });
+    }
+    setTimeout(nextQuestion,900);
+}
+
+function restartQuiz(){
+    remainingCountries = [...worldData[selectedContinent]];
+    score=0;
+    document.getElementById("result").style.display="none";
+    document.getElementById("restartBtn").style.display="none";
+    nextQuestion();
+}
+
+// Start quiz
+nextQuestion();
+</script>
+</body>
+</html>
