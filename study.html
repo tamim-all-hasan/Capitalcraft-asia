@@ -5,8 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Study Capitals</title>
 <link rel="stylesheet" href="style.css">
+<style>
+  body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f9f9f9; text-align:center; }
+  header { background:#4CAF50; color:white; padding:15px 10px; position:sticky; top:0; }
+  header h1 { margin:0; font-size:1.8em; }
+  .language-switch button { margin:0 5px; padding:5px 10px; font-size:1em; cursor:pointer; border:none; border-radius:5px; }
+  main { padding:20px; }
+  #search { padding:10px; font-size:1em; width:80%; max-width:400px; margin-bottom:20px; border-radius:5px; border:1px solid #ccc; }
+  #country-list { list-style:none; padding:0; margin:0 auto; max-width:400px; text-align:left; }
+  #country-list li { padding:10px; border-bottom:1px solid #ddd; }
+</style>
 </head>
 <body>
+
 <header>
   <h1 id="study-title">Study Capitals</h1>
   <div class="language-switch">
@@ -26,7 +37,7 @@
 let language = localStorage.getItem('lang') || 'en';
 
 function setLanguage(lang){
-    language=lang;
+    language = lang;
     localStorage.setItem('lang', lang);
     renderList();
 }
@@ -36,7 +47,9 @@ function renderList(){
     list.innerHTML = '';
     Object.keys(worldData).sort().forEach(c=>{
         let li = document.createElement('li');
-        li.innerText = (language==='bn')?`${worldData[c].country.bn} - ${worldData[c].capital.bn}`:`${worldData[c].country.en} - ${worldData[c].capital.en}`;
+        li.innerText = (language==='bn') ? 
+            `${worldData[c].country.bn} - ${worldData[c].capital.bn}` :
+            `${worldData[c].country.en} - ${worldData[c].capital.en}`;
         list.appendChild(li);
     });
 }
@@ -48,6 +61,7 @@ function filterList(){
     });
 }
 
+// Initial render
 renderList();
 </script>
 </body>
