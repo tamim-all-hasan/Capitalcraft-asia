@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quiz</title>
 <link rel="stylesheet" href="style.css">
+<style>
+  body { font-family: Arial, sans-serif; margin:0; padding:0; text-align:center; background:#f9f9f9; }
+  header { background:#4CAF50; color:white; padding:15px 10px; position:sticky; top:0; }
+  header h1 { margin:0; font-size:1.8em; }
+  .language-switch button { margin:0 5px; padding:5px 10px; font-size:1em; cursor:pointer; border:none; border-radius:5px; }
+  main { padding:20px; }
+  #options button { display:block; margin:10px auto; padding:10px 20px; font-size:1.2em; cursor:pointer; border:none; border-radius:8px; background:#2196F3; color:white; transition:0.2s; width:60%; max-width:300px; }
+  #options button:hover { background:#1976D2; }
+  #feedback { margin-top:15px; font-size:1.4em; height:30px; }
+  #score { margin-top:15px; font-size:1.2em; font-weight:bold; }
+</style>
 </head>
 <body>
 
@@ -36,34 +47,38 @@ let continentMap = {
     'Africa':['Nigeria','Egypt','Kenya','South_Africa','Ghana'],
     'America':['USA','Canada','Brazil','Mexico','Argentina'],
     'Oceania':['Australia','New_Zealand','Fiji','Papua_New_Guinea','Samoa']
-}; // demo, replace with full continent-wise
+}; // demo, full list replace করতে পারো
 
 let countries = continentMap[selectedContinent];
 let score = 0;
 let current = 0;
 
+// Set language
 function setLanguage(lang){
     language = lang;
     localStorage.setItem('lang', lang);
     updateQuiz();
 }
 
+// Update quiz question, options, feedback
 function updateQuiz(){
     if(current >= countries.length){
         document.getElementById('question').innerText = (language==='bn')?'কুইজ শেষ!':'Quiz Over!';
         document.getElementById('options').innerHTML = '';
-        document.getElementById('score').innerText = (language==='bn')?'আপনার স্কোর:':'Your score: '+score;
+        document.getElementById('feedback').innerText = '';
+        document.getElementById('score').innerText = (language==='bn')?'আপনার স্কোর: '+score:'Your score: '+score;
         return;
     }
 
     let country = countries[current];
+    let correctCapital = (language==='bn') ? worldData[country].capital.bn : worldData[country].capital.en;
     document.getElementById('question').innerText = (language==='bn') ? 
         `দেশ: ${worldData[country].country.bn}` : `Country: ${worldData[country].country.en}`;
 
-    let correctCapital = (language==='bn') ? worldData[country].capital.bn : worldData[country].capital.en;
-
     let optionsDiv = document.getElementById('options');
     optionsDiv.innerHTML = '';
+    
+    // Generate 4 options
     let opts = [correctCapital];
     while(opts.length < 4){
         let randCountry = countries[Math.floor(Math.random()*countries.length)];
@@ -76,15 +91,19 @@ function updateQuiz(){
         let btn = document.createElement('button');
         btn.innerText = opt;
         btn.onclick = ()=>{
-            if(opt===correctCapital){score++; document.getElementById('feedback').innerText='✅';}
-            else document.getElementById('feedback').innerText='❌ ' + correctCapital;
+            if(opt === correctCapital){
+                score++;
+                document.getElementById('feedback').innerText = '✅';
+            } else {
+                document.getElementById('feedback').innerText = (language==='bn') ? `❌ সঠিক উত্তর: ${correctCapital}` : `❌ Correct: ${correctCapital}`;
+            }
             current++;
-            setTimeout(updateQuiz,700);
+            setTimeout(updateQuiz, 700);
         };
         optionsDiv.appendChild(btn);
     });
 
-    document.getElementById('score').innerText = (language==='bn')?'স্কোর:':'Score: '+score;
+    document.getElementById('score').innerText = (language==='bn')?'স্কোর: '+score:'Score: '+score;
 }
 
 updateQuiz();
