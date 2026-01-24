@@ -46,7 +46,7 @@ let language = localStorage.getItem('lang') || 'en';
 let selectedContinent = localStorage.getItem('selectedContinent');
 if(!selectedContinent) window.location.href = 'index.html';
 
-// Mapping continents to countries (demo, replace with full)
+// Continent -> country list
 let continentMap = {
     'Asia':['India','China','Japan','Nepal','Indonesia'],
     'Europe':['France','Germany','Italy','Spain','Sweden'],
@@ -55,8 +55,10 @@ let continentMap = {
     'Oceania':['Australia','New_Zealand','Fiji','Papua_New_Guinea','Samoa']
 };
 
-let countries = [...continentMap[selectedContinent]]; // copy array
-shuffleArray(countries); // optional shuffle
+// Copy the country list and shuffle once
+let countries = [...continentMap[selectedContinent]];
+shuffleArray(countries);
+
 let score = 0;
 let current = 0;
 
@@ -66,7 +68,7 @@ function setLanguage(lang){
     updateQuiz();
 }
 
-// Shuffle function
+// Shuffle helper
 function shuffleArray(arr){
     for(let i=arr.length-1;i>0;i--){
         let j = Math.floor(Math.random()*(i+1));
@@ -74,6 +76,7 @@ function shuffleArray(arr){
     }
 }
 
+// Update quiz
 function updateQuiz(){
     // Quiz finished
     if(current >= countries.length){
@@ -95,7 +98,7 @@ function updateQuiz(){
 
     let correctCapital = (language==='bn') ? worldData[country].capital.bn : worldData[country].capital.en;
 
-    // Generate 4 options (including correct)
+    // Create 3 random wrong options + correct one
     let optionsDiv = document.getElementById('options');
     optionsDiv.innerHTML = '';
     let opts = [correctCapital];
@@ -122,10 +125,10 @@ function updateQuiz(){
         optionsDiv.appendChild(btn);
     });
 
-    document.getElementById('score').innerText = (language==='bn')?'স্কোর:':'Score: '+score;
+    document.getElementById('score').innerText = (language==='bn')?'স্কোর:':'Score: '+score+'/'+countries.length;
 }
 
-// Initialize
+// Initialize quiz
 updateQuiz();
 </script>
 </body>
