@@ -1,214 +1,775 @@
 const worldData = {
-  "Asia": [
-    {country:"Afghanistan", capital:"Kabul"},
-    {country:"Armenia", capital:"Yerevan"},
-    {country:"Azerbaijan", capital:"Baku"},
-    {country:"Bahrain", capital:"Manama"},
-    {country:"Bangladesh", capital:"Dhaka"},
-    {country:"Bhutan", capital:"Thimphu"},
-    {country:"Brunei", capital:"Bandar Seri Begawan"},
-    {country:"Cambodia", capital:"Phnom Penh"},
-    {country:"China", capital:"Beijing"},
-    {country:"Cyprus", capital:"Nicosia"},
-    {country:"Georgia", capital:"Tbilisi"},
-    {country:"India", capital:"New Delhi"},
-    {country:"Indonesia", capital:"Jakarta"},
-    {country:"Iran", capital:"Tehran"},
-    {country:"Iraq", capital:"Baghdad"},
-    {country:"Israel", capital:"Jerusalem"},
-    {country:"Japan", capital:"Tokyo"},
-    {country:"Jordan", capital:"Amman"},
-    {country:"Kazakhstan", capital:"Astana"},
-    {country:"Kuwait", capital:"Kuwait City"},
-    {country:"Kyrgyzstan", capital:"Bishkek"},
-    {country:"Laos", capital:"Vientiane"},
-    {country:"Lebanon", capital:"Beirut"},
-    {country:"Malaysia", capital:"Kuala Lumpur"},
-    {country:"Maldives", capital:"Male"},
-    {country:"Mongolia", capital:"Ulaanbaatar"},
-    {country:"Myanmar", capital:"Naypyidaw"},
-    {country:"Nepal", capital:"Kathmandu"},
-    {country:"North Korea", capital:"Pyongyang"},
-    {country:"Oman", capital:"Muscat"},
-    {country:"Pakistan", capital:"Islamabad"},
-    {country:"Philippines", capital:"Manila"},
-    {country:"Qatar", capital:"Doha"},
-    {country:"Saudi Arabia", capital:"Riyadh"},
-    {country:"Singapore", capital:"Singapore"},
-    {country:"South Korea", capital:"Seoul"},
-    {country:"Sri Lanka", capital:"Sri Jayawardenepura Kotte"},
-    {country:"Syria", capital:"Damascus"},
-    {country:"Tajikistan", capital:"Dushanbe"},
-    {country:"Thailand", capital:"Bangkok"},
-    {country:"Timor-Leste", capital:"Dili"},
-    {country:"Turkey", capital:"Ankara"},
-    {country:"Turkmenistan", capital:"Ashgabat"},
-    {country:"UAE", capital:"Abu Dhabi"},
-    {country:"Uzbekistan", capital:"Tashkent"},
-    {country:"Vietnam", capital:"Hanoi"},
-    {country:"Yemen", capital:"Sana'a"}
-  ],
-
-  "Europe": [
-    {country:"Albania", capital:"Tirana"},
-    {country:"Andorra", capital:"Andorra la Vella"},
-    {country:"Austria", capital:"Vienna"},
-    {country:"Belarus", capital:"Minsk"},
-    {country:"Belgium", capital:"Brussels"},
-    {country:"Bosnia and Herzegovina", capital:"Sarajevo"},
-    {country:"Bulgaria", capital:"Sofia"},
-    {country:"Croatia", capital:"Zagreb"},
-    {country:"Czech Republic", capital:"Prague"},
-    {country:"Denmark", capital:"Copenhagen"},
-    {country:"Estonia", capital:"Tallinn"},
-    {country:"Finland", capital:"Helsinki"},
-    {country:"France", capital:"Paris"},
-    {country:"Germany", capital:"Berlin"},
-    {country:"Greece", capital:"Athens"},
-    {country:"Hungary", capital:"Budapest"},
-    {country:"Iceland", capital:"Reykjavik"},
-    {country:"Ireland", capital:"Dublin"},
-    {country:"Italy", capital:"Rome"},
-    {country:"Kosovo", capital:"Pristina"},
-    {country:"Latvia", capital:"Riga"},
-    {country:"Liechtenstein", capital:"Vaduz"},
-    {country:"Lithuania", capital:"Vilnius"},
-    {country:"Luxembourg", capital:"Luxembourg"},
-    {country:"Malta", capital:"Valletta"},
-    {country:"Moldova", capital:"Chisinau"},
-    {country:"Monaco", capital:"Monaco"},
-    {country:"Montenegro", capital:"Podgorica"},
-    {country:"Netherlands", capital:"Amsterdam"},
-    {country:"North Macedonia", capital:"Skopje"},
-    {country:"Norway", capital:"Oslo"},
-    {country:"Poland", capital:"Warsaw"},
-    {country:"Portugal", capital:"Lisbon"},
-    {country:"Romania", capital:"Bucharest"},
-    {country:"Russia", capital:"Moscow"},
-    {country:"San Marino", capital:"San Marino"},
-    {country:"Serbia", capital:"Belgrade"},
-    {country:"Slovakia", capital:"Bratislava"},
-    {country:"Slovenia", capital:"Ljubljana"},
-    {country:"Spain", capital:"Madrid"},
-    {country:"Sweden", capital:"Stockholm"},
-    {country:"Switzerland", capital:"Bern"},
-    {country:"Ukraine", capital:"Kyiv"},
-    {country:"United Kingdom", capital:"London"},
-    {country:"Vatican City", capital:"Vatican City"}
-  ],
-
-  "Africa": [
-    {country:"Algeria", capital:"Algiers"},
-    {country:"Angola", capital:"Luanda"},
-    {country:"Benin", capital:"Porto-Novo"},
-    {country:"Botswana", capital:"Gaborone"},
-    {country:"Burkina Faso", capital:"Ouagadougou"},
-    {country:"Burundi", capital:"Gitega"},
-    {country:"Cabo Verde", capital:"Praia"},
-    {country:"Cameroon", capital:"Yaoundé"},
-    {country:"Central African Republic", capital:"Bangui"},
-    {country:"Chad", capital:"N'Djamena"},
-    {country:"Comoros", capital:"Moroni"},
-    {country:"Congo", capital:"Brazzaville"},
-    {country:"Democratic Republic of the Congo", capital:"Kinshasa"},
-    {country:"Djibouti", capital:"Djibouti"},
-    {country:"Egypt", capital:"Cairo"},
-    {country:"Equatorial Guinea", capital:"Malabo"},
-    {country:"Eritrea", capital:"Asmara"},
-    {country:"Eswatini", capital:"Mbabane"},
-    {country:"Ethiopia", capital:"Addis Ababa"},
-    {country:"Gabon", capital:"Libreville"},
-    {country:"Gambia", capital:"Banjul"},
-    {country:"Ghana", capital:"Accra"},
-    {country:"Guinea", capital:"Conakry"},
-    {country:"Guinea-Bissau", capital:"Bissau"},
-    {country:"Ivory Coast", capital:"Yamoussoukro"},
-    {country:"Kenya", capital:"Nairobi"},
-    {country:"Lesotho", capital:"Maseru"},
-    {country:"Liberia", capital:"Monrovia"},
-    {country:"Libya", capital:"Tripoli"},
-    {country:"Madagascar", capital:"Antananarivo"},
-    {country:"Malawi", capital:"Lilongwe"},
-    {country:"Mali", capital:"Bamako"},
-    {country:"Mauritania", capital:"Nouakchott"},
-    {country:"Mauritius", capital:"Port Louis"},
-    {country:"Morocco", capital:"Rabat"},
-    {country:"Mozambique", capital:"Maputo"},
-    {country:"Namibia", capital:"Windhoek"},
-    {country:"Niger", capital:"Niamey"},
-    {country:"Nigeria", capital:"Abuja"},
-    {country:"Rwanda", capital:"Kigali"},
-    {country:"Sao Tome and Principe", capital:"São Tomé"},
-    {country:"Senegal", capital:"Dakar"},
-    {country:"Seychelles", capital:"Victoria"},
-    {country:"Sierra Leone", capital:"Freetown"},
-    {country:"Somalia", capital:"Mogadishu"},
-    {country:"South Africa", capital:"Pretoria"},
-    {country:"South Sudan", capital:"Juba"},
-    {country:"Sudan", capital:"Khartoum"},
-    {country:"Tanzania", capital:"Dodoma"},
-    {country:"Togo", capital:"Lomé"},
-    {country:"Tunisia", capital:"Tunis"},
-    {country:"Uganda", capital:"Kampala"},
-    {country:"Zambia", capital:"Lusaka"},
-    {country:"Zimbabwe", capital:"Harare"}
-  ],
-
-  "North America": [
-    {country:"Antigua and Barbuda", capital:"Saint John's"},
-    {country:"Bahamas", capital:"Nassau"},
-    {country:"Barbados", capital:"Bridgetown"},
-    {country:"Belize", capital:"Belmopan"},
-    {country:"Canada", capital:"Ottawa"},
-    {country:"Costa Rica", capital:"San José"},
-    {country:"Cuba", capital:"Havana"},
-    {country:"Dominica", capital:"Roseau"},
-    {country:"Dominican Republic", capital:"Santo Domingo"},
-    {country:"El Salvador", capital:"San Salvador"},
-    {country:"Grenada", capital:"St. George's"},
-    {country:"Guatemala", capital:"Guatemala City"},
-    {country:"Haiti", capital:"Port-au-Prince"},
-    {country:"Honduras", capital:"Tegucigalpa"},
-    {country:"Jamaica", capital:"Kingston"},
-    {country:"Mexico", capital:"Mexico City"},
-    {country:"Nicaragua", capital:"Managua"},
-    {country:"Panama", capital:"Panama City"},
-    {country:"Saint Kitts and Nevis", capital:"Basseterre"},
-    {country:"Saint Lucia", capital:"Castries"},
-    {country:"Saint Vincent and the Grenadines", capital:"Kingstown"},
-    {country:"Trinidad and Tobago", capital:"Port of Spain"},
-    {country:"United States", capital:"Washington D.C."}
-  ],
-
-  "South America": [
-    {country:"Argentina", capital:"Buenos Aires"},
-    {country:"Bolivia", capital:"Sucre"},
-    {country:"Brazil", capital:"Brasília"},
-    {country:"Chile", capital:"Santiago"},
-    {country:"Colombia", capital:"Bogotá"},
-    {country:"Ecuador", capital:"Quito"},
-    {country:"Guyana", capital:"Georgetown"},
-    {country:"Paraguay", capital:"Asunción"},
-    {country:"Peru", capital:"Lima"},
-    {country:"Suriname", capital:"Paramaribo"},
-    {country:"Uruguay", capital:"Montevideo"},
-    {country:"Venezuela", capital:"Caracas"}
-  ],
-
-  "Oceania": [
-    {country:"Australia", capital:"Canberra"},
-    {country:"Fiji", capital:"Suva"},
-    {country:"Kiribati", capital:"Tarawa"},
-    {country:"Marshall Islands", capital:"Majuro"},
-    {country:"Micronesia", capital:"Palikir"},
-    {country:"Nauru", capital:"Yaren"},
-    {country:"New Zealand", capital:"Wellington"},
-    {country:"Palau", capital:"Ngerulmud"},
-    {country:"Papua New Guinea", capital:"Port Moresby"},
-    {country:"Samoa", capital:"Apia"},
-    {country:"Solomon Islands", capital:"Honiara"},
-    {country:"Tonga", capital:"Nukuʻalofa"},
-    {country:"Tuvalu", capital:"Funafuti"},
-    {country:"Vanuatu", capital:"Port Vila"}
-  ]
+  Afghanistan: {
+    country: { en: "Afghanistan", bn: "আফগানিস্তান" },
+    capital: { en: "Kabul", bn: "কাবুল" }
+  },
+  Albania: {
+    country: { en: "Albania", bn: "অ্যালবেনিয়া" },
+    capital: { en: "Tirana", bn: "তিরানা" }
+  },
+  Algeria: {
+    country: { en: "Algeria", bn: "আলজেরিয়া" },
+    capital: { en: "Algiers", bn: "আলজিয়ার" }
+  },
+  Andorra: {
+    country: { en: "Andorra", bn: "অ্যান্ডোরা" },
+    capital: { en: "Andorra la Vella", bn: "অ্যান্ডোরা লা ভেলার" }
+  },
+  Angola: {
+    country: { en: "Angola", bn: "অ্যাংগোলা" },
+    capital: { en: "Luanda", bn: "লুয়ান্ডা" }
+  },
+  Antigua_and_Barbuda: {
+    country: { en: "Antigua and Barbuda", bn: "অ্যান্টিগুয়া ও বার্বুডা" },
+    capital: { en: "Saint John's", bn: "সেইন্ট জনস" }
+  },
+  Argentina: {
+    country: { en: "Argentina", bn: "আর্জেন্টিনা" },
+    capital: { en: "Buenos Aires", bn: "বুয়েন্স আইরেস" }
+  },
+  Armenia: {
+    country: { en: "Armenia", bn: "আর্মেনিয়া" },
+    capital: { en: "Yerevan", bn: "ইরেভান" }
+  },
+  Australia: {
+    country: { en: "Australia", bn: "অস্ট্রেলিয়া" },
+    capital: { en: "Canberra", bn: "ক্যানবেরা" }
+  },
+  Austria: {
+    country: { en: "Austria", bn: "অস্ট্রিয়া" },
+    capital: { en: "Vienna", bn: "ভিয়েনা" }
+  },
+  Azerbaijan: {
+    country: { en: "Azerbaijan", bn: "আজারবাইজান" },
+    capital: { en: "Baku", bn: "বাকু" }
+  },
+  Bahamas: {
+    country: { en: "Bahamas", bn: "বাহামাস" },
+    capital: { en: "Nassau", bn: "নাসাউ" }
+  },
+  Bahrain: {
+    country: { en: "Bahrain", bn: "বাহরাইন" },
+    capital: { en: "Manama", bn: "মানামা" }
+  },
+  Bangladesh: {
+    country: { en: "Bangladesh", bn: "বাংলাদেশ" },
+    capital: { en: "Dhaka", bn: "ঢাকা" }
+  },
+  Barbados: {
+    country: { en: "Barbados", bn: "বার্বাডোস" },
+    capital: { en: "Bridgetown", bn: "ব্রিজটাউন" }
+  },
+  Belarus: {
+    country: { en: "Belarus", bn: "বেলারুশ" },
+    capital: { en: "Minsk", bn: "মিনস্ক" }
+  },
+  Belgium: {
+    country: { en: "Belgium", bn: "বেলজিয়াম" },
+    capital: { en: "Brussels", bn: "ব্রাসেলস" }
+  },
+  Belize: {
+    country: { en: "Belize", bn: "বেলিজ" },
+    capital: { en: "Belmopan", bn: "বেলমোপান" }
+  },
+  Benin: {
+    country: { en: "Benin", bn: "বেনিন" },
+    capital: { en: "Porto-Novo", bn: "পোর্টো-নোভো" }
+  },
+  Bhutan: {
+    country: { en: "Bhutan", bn: "ভুটান" },
+    capital: { en: "Thimphu", bn: "থিম্পু" }
+  },
+  Bolivia: {
+    country: { en: "Bolivia", bn: "বলিভিয়া" },
+    capital: { en: "Sucre", bn: "সুক্রে" }
+  },
+  Bosnia_and_Herzegovina: {
+    country: { en: "Bosnia and Herzegovina", bn: "বসনিয়া ও হার্জেগোভিনা" },
+    capital: { en: "Sarajevo", bn: "সারায়েভো" }
+  },
+  Botswana: {
+    country: { en: "Botswana", bn: "বেৎসোয়ানা" },
+    capital: { en: "Gaborone", bn: "গাবরোনে" }
+  },
+  Brazil: {
+    country: { en: "Brazil", bn: "ব্রাজিল" },
+    capital: { en: "Brasília", bn: "ব্রাসিলিয়া" }
+  },
+  Bulgaria: {
+    country: { en: "Bulgaria", bn: "বুলগেরিয়া" },
+    capital: { en: "Sofia", bn: "সোফিয়া" }
+  },
+  Burkina_Faso: {
+    country: { en: "Burkina Faso", bn: "বুরকিনা ফাসো" },
+    capital: { en: "Ouagadougou", bn: "উয়াগাডুগু" }
+  },
+  Burundi: {
+    country: { en: "Burundi", bn: "বুরুন্ডি" },
+    capital: { en: "Gitega", bn: "গিতেগা" }
+  },
+  Cabo_Verde: {
+    country: { en: "Cabo Verde", bn: "কেপ ভার্দে" },
+    capital: { en: "Praia", bn: "প্রাইয়া" }
+  },
+  Cambodia: {
+    country: { en: "Cambodia", bn: "কম্বোডিয়া" },
+    capital: { en: "Phnom Penh", bn: "ফোনম পেন" }
+  },
+  Cameroon: {
+    country: { en: "Cameroon", bn: "ক্যামেরুন" },
+    capital: { en: "Yaoundé", bn: "ইয়াউন্ডে" }
+  },
+  Canada: {
+    country: { en: "Canada", bn: "কানাডা" },
+    capital: { en: "Ottawa", bn: "ওটাওয়া" }
+  },
+  Central_African_Republic: {
+    country: { en: "Central African Republic", bn: "মধ্য আফ্রিকান প্রজাতন্ত্র" },
+    capital: { en: "Bangui", bn: "বাঙ্গুই" }
+  },
+  Chad: {
+    country: { en: "Chad", bn: "চাদ" },
+    capital: { en: "N'Djamena", bn: "এন'জামেনা" }
+  },
+  Chile: {
+    country: { en: "Chile", bn: "চিলি" },
+    capital: { en: "Santiago", bn: "সান্তিয়াগো" }
+  },
+  China: {
+    country: { en: "China", bn: "চীন" },
+    capital: { en: "Beijing", bn: "বেইজিং" }
+  },
+  Colombia: {
+    country: { en: "Colombia", bn: "কলম্বিয়া" },
+    capital: { en: "Bogotá", bn: "বোগোটা" }
+  },
+  Comoros: {
+    country: { en: "Comoros", bn: "কমোরোস" },
+    capital: { en: "Moroni", bn: "মোরনি" }
+  },
+  Congo_Brazzaville: {
+    country: { en: "Congo (Brazzaville)", bn: "কঙ্গো (ব্রাজাভিল)" },
+    capital: { en: "Brazzaville", bn: "ব্রাজাভিল" }
+  },
+  Congo_Kinshasa: {
+    country: { en: "Congo (Kinshasa)", bn: "কঙ্গো (কিনশাসা)" },
+    capital: { en: "Kinshasa", bn: "কিনশাসা" }
+  },
+  Costa_Rica: {
+    country: { en: "Costa Rica", bn: "কোস্টা রিকা" },
+    capital: { en: "San José", bn: "সান জোসে" }
+  },
+  Croatia: {
+    country: { en: "Croatia", bn: "ক্রোয়েশিয়া" },
+    capital: { en: "Zagreb", bn: "জাগ্রেব" }
+  },
+  Cuba: {
+    country: { en: "Cuba", bn: "কিউবা" },
+    capital: { en: "Havana", bn: "হাভানা" }
+  },
+  Cyprus: {
+    country: { en: "Cyprus", bn: "সাইপ্রাস" },
+    capital: { en: "Nicosia", bn: "নিকোসিয়া" }
+  },
+  Czech_Republic: {
+    country: { en: "Czech Republic", bn: "চেক প্রজাতন্ত্র" },
+    capital: { en: "Prague", bn: "প্রাগ" }
+  },
+  Denmark: {
+    country: { en: "Denmark", bn: "ডেনমার্ক" },
+    capital: { en: "Copenhagen", bn: "কোপেনহেগেন" }
+  },
+  Djibouti: {
+    country: { en: "Djibouti", bn: "জিবুতি" },
+    capital: { en: "Djibouti", bn: "জিবুতি" }
+  },
+  Dominica: {
+    country: { en: "Dominica", bn: "ডোমিনিকা" },
+    capital: { en: "Roseau", bn: "রোসো" }
+  },
+  Dominican_Republic: {
+    country: { en: "Dominican Republic", bn: "ডোমিনিকান প্রজাতন্ত্র" },
+    capital: { en: "Santo Domingo", bn: "সান্তো ডোমিঙ্গো" }
+  },
+  Ecuador: {
+    country: { en: "Ecuador", bn: "ইকুয়েডর" },
+    capital: { en: "Quito", bn: "কুইতো" }
+  },
+  Egypt: {
+    country: { en: "Egypt", bn: "মিশর" },
+    capital: { en: "Cairo", bn: "কায়রো" }
+  },
+  El_Salvador: {
+    country: { en: "El Salvador", bn: "এল সালভাদর" },
+    capital: { en: "San Salvador", bn: "সান সালভাদর" }
+  },
+  Equatorial_Guinea: {
+    country: { en: "Equatorial Guinea", bn: "ইকুয়েটোরিয়াল গিনিয়া" },
+    capital: { en: "Malabo", bn: "মালাবো" }
+  },
+  Eritrea: {
+    country: { en: "Eritrea", bn: "ইরিত্রিয়া" },
+    capital: { en: "Asmara", bn: "অসমারা" }
+  },
+  Estonia: {
+    country: { en: "Estonia", bn: "এস্তোনিয়া" },
+    capital: { en: "Tallinn", bn: "টালিন" }
+  },
+  Eswatini: {
+    country: { en: "Eswatini", bn: "এসওয়াতিনী" },
+    capital: { en: "Mbabane", bn: "এমবাবানে" }
+  },
+  Ethiopia: {
+    country: { en: "Ethiopia", bn: "ইথিওপিয়া" },
+    capital: { en: "Addis Ababa", bn: "অ্যাডিস আবাবা" }
+  },
+  Fiji: {
+    country: { en: "Fiji", bn: "ফিজি" },
+    capital: { en: "Suva", bn: "সুভা" }
+  },
+  Finland: {
+    country: { en: "Finland", bn: "ফিনল্যান্ড" },
+    capital: { en: "Helsinki", bn: "হেলসিঙ্কি" }
+  },
+};
+  Gabon: {
+    country: { en: "Gabon", bn: "গ্যাবন" },
+    capital: { en: "Libreville", bn: "লিব্রেভিল" }
+  },
+  Gambia: {
+    country: { en: "Gambia", bn: "গাম্বিয়া" },
+    capital: { en: "Banjul", bn: "বাঞ্জুল" }
+  },
+  Georgia: {
+    country: { en: "Georgia", bn: "জর্জিয়া" },
+    capital: { en: "Tbilisi", bn: "তিবিলিসি" }
+  },
+  Germany: {
+    country: { en: "Germany", bn: "জার্মানি" },
+    capital: { en: "Berlin", bn: "বার্লিন" }
+  },
+  Ghana: {
+    country: { en: "Ghana", bn: "ঘানা" },
+    capital: { en: "Accra", bn: "আকরা" }
+  },
+  Greece: {
+    country: { en: "Greece", bn: "গ্রিস" },
+    capital: { en: "Athens", bn: "এথেন্স" }
+  },
+  Grenada: {
+    country: { en: "Grenada", bn: "গ্রেনাডা" },
+    capital: { en: "St. George's", bn: "সেন্ট জর্জ" }
+  },
+  Guatemala: {
+    country: { en: "Guatemala", bn: "গুয়াতেমালা" },
+    capital: { en: "Guatemala City", bn: "গুয়াতেমালা সিটি" }
+  },
+  Guinea: {
+    country: { en: "Guinea", bn: "গিনি" },
+    capital: { en: "Conakry", bn: "কোনাক্রি" }
+  },
+  Guinea_Bissau: {
+    country: { en: "Guinea-Bissau", bn: "গিনি-বিসাউ" },
+    capital: { en: "Bissau", bn: "বিসাউ" }
+  },
+  Guyana: {
+    country: { en: "Guyana", bn: "গায়ানা" },
+    capital: { en: "Georgetown", bn: "জর্জটাউন" }
+  },
+  Haiti: {
+    country: { en: "Haiti", bn: "হাইতি" },
+    capital: { en: "Port-au-Prince", bn: "পোর্ট-অ-প্রিন্স" }
+  },
+  Honduras: {
+    country: { en: "Honduras", bn: "হন্ডুরাস" },
+    capital: { en: "Tegucigalpa", bn: "টেগুসিগাল্পা" }
+  },
+  Hungary: {
+    country: { en: "Hungary", bn: "হাঙ্গেরি" },
+    capital: { en: "Budapest", bn: "বুদাপেস্ট" }
+  },
+  Iceland: {
+    country: { en: "Iceland", bn: "আইসল্যান্ড" },
+    capital: { en: "Reykjavik", bn: "রেইকজাভিক" }
+  },
+  India: {
+    country: { en: "India", bn: "ভারত" },
+    capital: { en: "New Delhi", bn: "নতুন দিল্লি" }
+  },
+  Indonesia: {
+    country: { en: "Indonesia", bn: "ইন্দোনেশিয়া" },
+    capital: { en: "Jakarta", bn: "জাকার্তা" }
+  },
+  Iran: {
+    country: { en: "Iran", bn: "ইরান" },
+    capital: { en: "Tehran", bn: "তেহরান" }
+  },
+  Iraq: {
+    country: { en: "Iraq", bn: "ইরাক" },
+    capital: { en: "Baghdad", bn: "বাগদাদ" }
+  },
+  Ireland: {
+    country: { en: "Ireland", bn: "আয়ারল্যান্ড" },
+    capital: { en: "Dublin", bn: "ডাবলিন" }
+  },
+  Israel: {
+    country: { en: "Israel", bn: "ইস্রায়েল" },
+    capital: { en: "Jerusalem", bn: "জেরুজালেম" }
+  },
+  Italy: {
+    country: { en: "Italy", bn: "ইতালি" },
+    capital: { en: "Rome", bn: "রোম" }
+  },
+  Jamaica: {
+    country: { en: "Jamaica", bn: "জ্যামাইকা" },
+    capital: { en: "Kingston", bn: "কিংস্টন" }
+  },
+  Japan: {
+    country: { en: "Japan", bn: "জাপান" },
+    capital: { en: "Tokyo", bn: "টোকিও" }
+  },
+  Jordan: {
+    country: { en: "Jordan", bn: "জর্ডান" },
+    capital: { en: "Amman", bn: "অ্যামান" }
+  },
+  Kazakhstan: {
+    country: { en: "Kazakhstan", bn: "কাজাখস্তান" },
+    capital: { en: "Nur-Sultan", bn: "নুর-সুলতান" }
+  },
+  Kenya: {
+    country: { en: "Kenya", bn: "কেনিয়া" },
+    capital: { en: "Nairobi", bn: "নায়রোবি" }
+  },
+  Kiribati: {
+    country: { en: "Kiribati", bn: "কিরিবাতি" },
+    capital: { en: "Tarawa", bn: "টারাওয়া" }
+  },
+  Korea_North: {
+    country: { en: "North Korea", bn: "উত্তর কোরিয়া" },
+    capital: { en: "Pyongyang", bn: "পিয়ংইয়াং" }
+  },
+  Korea_South: {
+    country: { en: "South Korea", bn: "দক্ষিণ কোরিয়া" },
+    capital: { en: "Seoul", bn: "সিওল" }
+  },
+  Kuwait: {
+    country: { en: "Kuwait", bn: "কুয়েত" },
+    capital: { en: "Kuwait City", bn: "কুয়েত সিটি" }
+  },
+  Kyrgyzstan: {
+    country: { en: "Kyrgyzstan", bn: "কিরগিজস্তান" },
+    capital: { en: "Bishkek", bn: "বিস্কেক" }
+  },
+  Laos: {
+    country: { en: "Laos", bn: "লাওস" },
+    capital: { en: "Vientiane", bn: "ভিয়েন্টিয়ান" }
+  },
+  Latvia: {
+    country: { en: "Latvia", bn: "লাতভিয়া" },
+    capital: { en: "Riga", bn: "রিগা" }
+  },
+  Lebanon: {
+    country: { en: "Lebanon", bn: "লেবানন" },
+    capital: { en: "Beirut", bn: "বেইরুত" }
+  },
+  Lesotho: {
+    country: { en: "Lesotho", bn: "লেসোথো" },
+    capital: { en: "Maseru", bn: "মাসেরু" }
+  },
+  Liberia: {
+    country: { en: "Liberia", bn: "লাইবেরিয়া" },
+    capital: { en: "Monrovia", bn: "মনরোভিয়া" }
+  },
+  Libya: {
+    country: { en: "Libya", bn: "লিবিয়া" },
+    capital: { en: "Tripoli", bn: "ত্রিপলি" }
+  },
+  Liechtenstein: {
+    country: { en: "Liechtenstein", bn: "লিচটেনস্টেইন" },
+    capital: { en: "Vaduz", bn: "ভাদুজ" }
+  },
+  Lithuania: {
+    country: { en: "Lithuania", bn: "লিথুয়ানিয়া" },
+    capital: { en: "Vilnius", bn: "ভিলনিয়াস" }
+  },
+  Luxembourg: {
+    country: { en: "Luxembourg", bn: "লুক্সেমবার্গ" },
+    capital: { en: "Luxembourg City", bn: "লুক্সেমবার্গ সিটি" }
+  },
+  Madagascar: {
+    country: { en: "Madagascar", bn: "মাদাগাস্কার" },
+    capital: { en: "Antananarivo", bn: "অ্যান্টানানারিভো" }
+  },
+  Malawi: {
+    country: { en: "Malawi", bn: "মালাউই" },
+    capital: { en: "Lilongwe", bn: "লিলংগওয়ে" }
+  },
+  Malaysia: {
+    country: { en: "Malaysia", bn: "মালয়েশিয়া" },
+    capital: { en: "Kuala Lumpur", bn: "কুয়ালা লুমপুর" }
+  },
+  Maldives: {
+    country: { en: "Maldives", bn: "মালদ্বীপ" },
+    capital: { en: "Malé", bn: "মালে" }
+  },
+  Mali: {
+    country: { en: "Mali", bn: "মালি" },
+    capital: { en: "Bamako", bn: "বামাকো" }
+  },
+  Malta: {
+    country: { en: "Malta", bn: "মাল্টা" },
+    capital: { en: "Valletta", bn: "ভ্যালেটা" }
+  },
+  Marshall_Islands: {
+    country: { en: "Marshall Islands", bn: "মার্শাল দ্বীপপুঞ্জ" },
+    capital: { en: "Majuro", bn: "মাজুরো" }
+  },
+  Mauritania: {
+    country: { en: "Mauritania", bn: "মৌরিতানিয়া" },
+    capital: { en: "Nouakchott", bn: "নৌয়াকশট" }
+  },
+  Mauritius: {
+    country: { en: "Mauritius", bn: "মৌরিশিয়াস" },
+    capital: { en: "Port Louis", bn: "পোর্ট লুইস" }
+  },
+  Mexico: {
+    country: { en: "Mexico", bn: "মেক্সিকো" },
+    capital: { en: "Mexico City", bn: "মেক্সিকো সিটি" }
+  },
+  Micronesia: {
+    country: { en: "Micronesia", bn: "মাইক্রোনেশিয়া" },
+    capital: { en: "Palikir", bn: "পালিকির" }
+  },
+  Moldova: {
+    country: { en: "Moldova", bn: "মলডোভা" },
+    capital: { en: "Chișinău", bn: "কিশিনৌ" }
+  },
+  Monaco: {
+    country: { en: "Monaco", bn: "মোনাকো" },
+    capital: { en: "Monaco", bn: "মোনাকো" }
+  },
+  Mongolia: {
+    country: { en: "Mongolia", bn: "মঙ্গোলিয়া" },
+    capital: { en: "Ulaanbaatar", bn: "উলানবাটার" }
+  },
+  Montenegro: {
+    country: { en: "Montenegro", bn: "মন্টিনিগ্রো" },
+    capital: { en: "Podgorica", bn: "পডগোরিকা" }
+  },
+  Morocco: {
+    country: { en: "Morocco", bn: "মরক্কো" },
+    capital: { en: "Rabat", bn: "রাবাত" }
+  },
+  Mozambique: {
+    country: { en: "Mozambique", bn: "মোজাম্বিক" },
+    capital: { en: "Maputo", bn: "মাপুতো" }
+  },
+  Myanmar: {
+    country: { en: "Myanmar", bn: "মায়ানমার" },
+    capital: { en: "Naypyidaw", bn: "নাইপিদো" }
+  },
+  Namibia: {
+    country: { en: "Namibia", bn: "নামিবিয়া" },
+    capital: { en: "Windhoek", bn: "উইন্ডহোক" }
+  },
+  Nauru: {
+    country: { en: "Nauru", bn: "নাউরু" },
+    capital: { en: "Yaren", bn: "ইয়ারেন" }
+  },
+  Nepal: {
+    country: { en: "Nepal", bn: "নেপাল" },
+    capital: { en: "Kathmandu", bn: "কাঠমাণ্ডু" }
+  },
+  Netherlands: {
+    country: { en: "Netherlands", bn: "নেদারল্যান্ডস" },
+    capital: { en: "Amsterdam", bn: "আমস্টারডাম" }
+  },
+  New_Zealand: {
+    country: { en: "New Zealand", bn: "নিউজিল্যান্ড" },
+    capital: { en: "Wellington", bn: "ওয়েলিংটন" }
+  },
+  Nicaragua: {
+    country: { en: "Nicaragua", bn: "নিকারাগুয়া" },
+    capital: { en: "Managua", bn: "ম্যানাগুয়া" }
+  },
+  Niger: {
+    country: { en: "Niger", bn: "নাইজার" },
+    capital: { en: "Niamey", bn: "নিয়ামে" }
+  },
+  Nigeria: {
+    country: { en: "Nigeria", bn: "নাইজেরিয়া" },
+    capital: { en: "Abuja", bn: "অবুজা" }
+  },
+  North_Macedonia: {
+    country: { en: "North Macedonia", bn: "উত্তর মেসিডোনিয়া" },
+    capital: { en: "Skopje", bn: "স্কোপজে" }
+  },
+  Norway: {
+    country: { en: "Norway", bn: "নরওয়ে" },
+    capital: { en: "Oslo", bn: "ওসলো" }
+  },
+  Oman: {
+    country: { en: "Oman", bn: "ওমান" },
+    capital: { en: "Muscat", bn: "মাসকাট" }
+  },
+  Pakistan: {
+    country: { en: "Pakistan", bn: "পাকিস্তান" },
+    capital: { en: "Islamabad", bn: "ইসলামাবাদ" }
+  },
+  Palau: {
+    country: { en: "Palau", bn: "পালাউ" },
+    capital: { en: "Ngerulmud", bn: "এনজেরুলমুদ" }
+  },
+  Palestine: {
+    country: { en: "Palestine", bn: "প্যালেস্টাইন" },
+    capital: { en: "Ramallah", bn: "রামাল্লাহ" }
+  },
+  Panama: {
+    country: { en: "Panama", bn: "পানামা" },
+    capital: { en: "Panama City", bn: "পানামা সিটি" }
+  },
+  Papua_New_Guinea: {
+    country: { en: "Papua New Guinea", bn: "পাপুয়া নিউ গিনি" },
+    capital: { en: "Port Moresby", bn: "পোর্ট মোরেসবি" }
+  },
+  Paraguay: {
+    country: { en: "Paraguay", bn: "প্যারাগুয়ে" },
+    capital: { en: "Asunción", bn: "আসুনসিয়ন" }
+  },
+  Peru: {
+    country: { en: "Peru", bn: "পেরু" },
+    capital: { en: "Lima", bn: "লিমা" }
+  },
+  Philippines: {
+    country: { en: "Philippines", bn: "ফিলিপাইন" },
+    capital: { en: "Manila", bn: "মানিলা" }
+  },
+  Poland: {
+    country: { en: "Poland", bn: "পোল্যান্ড" },
+    capital: { en: "Warsaw", bn: "ভার্সো" }
+  },
+  Portugal: {
+    country: { en: "Portugal", bn: "পর্তুগাল" },
+    capital: { en: "Lisbon", bn: "লিসবন" }
+  },
+  Qatar: {
+    country: { en: "Qatar", bn: "কাতার" },
+    capital: { en: "Doha", bn: "দোহা" }
+  },
+  Romania: {
+    country: { en: "Romania", bn: "রোমানিয়া" },
+    capital: { en: "Bucharest", bn: "বুখারেস্ট" }
+  },
+  Russia: {
+    country: { en: "Russia", bn: "রাশিয়া" },
+    capital: { en: "Moscow", bn: "মস্কো" }
+  },
+  Rwanda: {
+    country: { en: "Rwanda", bn: "রুয়ান্ডা" },
+    capital: { en: "Kigali", bn: "কিগালি" }
+  },
+  Saint_Kitts_and_Nevis: {
+    country: { en: "Saint Kitts and Nevis", bn: "সেন্ট কিটস ও নেভিস" },
+    capital: { en: "Basseterre", bn: "বাসেটার" }
+  },
+  Saint_Lucia: {
+    country: { en: "Saint Lucia", bn: "সেন্ট লুসিয়া" },
+    capital: { en: "Castries", bn: "ক্যাসট্রিজ" }
+  },
+  Saint_Vincent_and_the_Grenadines: {
+    country: { en: "Saint Vincent and the Grenadines", bn: "সেন্ট ভিনসেন্ট ও গ্রেনাডাইনস" },
+    capital: { en: "Kingstown", bn: "কিংস্টাউন" }
+  },
+  Samoa: {
+    country: { en: "Samoa", bn: "সামোয়া" },
+    capital: { en: "Apia", bn: "আপিয়া" }
+  },
+  San_Marino: {
+    country: { en: "San Marino", bn: "সান মারিনো" },
+    capital: { en: "San Marino", bn: "সান মারিনো" }
+  },
+  Sao_Tome_and_Principe: {
+    country: { en: "Sao Tome and Principe", bn: "সাও টোমে ও প্রিন্সিপে" },
+    capital: { en: "São Tomé", bn: "সাও টোমে" }
+  },
+  Saudi_Arabia: {
+    country: { en: "Saudi Arabia", bn: "সৌদি আরব" },
+    capital: { en: "Riyadh", bn: "রিয়াদ" }
+  },
+  Senegal: {
+    country: { en: "Senegal", bn: "সেনেগাল" },
+    capital: { en: "Dakar", bn: "ডাকার" }
+  },
+  Serbia: {
+    country: { en: "Serbia", bn: "সার্বিয়া" },
+    capital: { en: "Belgrade", bn: "বেলগ্রেড" }
+  },
+  Seychelles: {
+    country: { en: "Seychelles", bn: "সেশেলস" },
+    capital: { en: "Victoria", bn: "ভিক্টোরিয়া" }
+  },
+  Sierra_Leone: {
+    country: { en: "Sierra Leone", bn: "সিয়েরা লিওন" },
+    capital: { en: "Freetown", bn: "ফ্রিটাউন" }
+  },
+  Singapore: {
+    country: { en: "Singapore", bn: "সিঙ্গাপুর" },
+    capital: { en: "Singapore", bn: "সিঙ্গাপুর" }
+  },
+  Slovakia: {
+    country: { en: "Slovakia", bn: "স্লোভাকিয়া" },
+    capital: { en: "Bratislava", bn: "ব্রাতিস্লাভা" }
+  },
+  Slovenia: {
+    country: { en: "Slovenia", bn: "স্লোভেনিয়া" },
+    capital: { en: "Ljubljana", bn: "লুবলিয়ানা" }
+  },
+  Solomon_Islands: {
+    country: { en: "Solomon Islands", bn: "সলোমন দ্বীপপুঞ্জ" },
+    capital: { en: "Honiara", bn: "হোনিয়ারা" }
+  },
+  Somalia: {
+    country: { en: "Somalia", bn: "সোমালিয়া" },
+    capital: { en: "Mogadishu", bn: "মোগাদিশু" }
+  },
+  South_Africa: {
+    country: { en: "South Africa", bn: "দক্ষিণ আফ্রিকা" },
+    capital: { en: "Pretoria", bn: "প্রিটোরিয়া" }
+  },
+  South_Sudan: {
+    country: { en: "South Sudan", bn: "দক্ষিণ সুদান" },
+    capital: { en: "Juba", bn: "জুবা" }
+  },
+  Spain: {
+    country: { en: "Spain", bn: "স্পেন" },
+    capital: { en: "Madrid", bn: "মাদ্রিদ" }
+  },
+  Sri_Lanka: {
+    country: { en: "Sri Lanka", bn: "শ্রীলঙ্কা" },
+    capital: { en: "Sri Jayawardenepura Kotte", bn: "শ্রী জয়বর্দেনেপুরা কোট্টে" }
+  },
+  Sudan: {
+    country: { en: "Sudan", bn: "সুদান" },
+    capital: { en: "Khartoum", bn: "কার্তুম" }
+  },
+  Suriname: {
+    country: { en: "Suriname", bn: "সুরিনাম" },
+    capital: { en: "Paramaribo", bn: "প্যারামারিবো" }
+  },
+  Sweden: {
+    country: { en: "Sweden", bn: "সুইডেন" },
+    capital: { en: "Stockholm", bn: "স্টকহোম" }
+  },
+  Switzerland: {
+    country: { en: "Switzerland", bn: "সুইজারল্যান্ড" },
+    capital: { en: "Bern", bn: "বার্ন" }
+  },
+  Syria: {
+    country: { en: "Syria", bn: "সিরিয়া" },
+    capital: { en: "Damascus", bn: "দামেস্ক" }
+  },
+  Taiwan: {
+    country: { en: "Taiwan", bn: "তাইওয়ান" },
+    capital: { en: "Taipei", bn: "তাইপেই" }
+  },
+  Tajikistan: {
+    country: { en: "Tajikistan", bn: "তাজিকিস্তান" },
+    capital: { en: "Dushanbe", bn: "দুশানবে" }
+  },
+  Tanzania: {
+    country: { en: "Tanzania", bn: "তানজানিয়া" },
+    capital: { en: "Dodoma", bn: "দোদোমা" }
+  },
+  Thailand: {
+    country: { en: "Thailand", bn: "থাইল্যান্ড" },
+    capital: { en: "Bangkok", bn: "ব্যাংকক" }
+  },
+  Timor_Leste: {
+    country: { en: "Timor-Leste", bn: "তিমুর-লেস্তে" },
+    capital: { en: "Dili", bn: "দিলি" }
+  },
+  Togo: {
+    country: { en: "Togo", bn: "টোগো" },
+    capital: { en: "Lomé", bn: "লোমে" }
+  },
+  Tonga: {
+    country: { en: "Tonga", bn: "টঙ্গা" },
+    capital: { en: "Nukuʻalofa", bn: "নুকু'আলফা" }
+  },
+  Trinidad_and_Tobago: {
+    country: { en: "Trinidad and Tobago", bn: "ত্রিনিদাদ ও টোবাগো" },
+    capital: { en: "Port of Spain", bn: "পোর্ট অব স্পেন" }
+  },
+  Tunisia: {
+    country: { en: "Tunisia", bn: "টিউনিসিয়া" },
+    capital: { en: "Tunis", bn: "টিউনিস" }
+  },
+  Turkey: {
+    country: { en: "Turkey", bn: "তুরস্ক" },
+    capital: { en: "Ankara", bn: "আঙ্কারা" }
+  },
+  Turkmenistan: {
+    country: { en: "Turkmenistan", bn: "তুর্কমেনিস্তান" },
+    capital: { en: "Ashgabat", bn: "আশগাবাত" }
+  },
+  Tuvalu: {
+    country: { en: "Tuvalu", bn: "তুভালু" },
+    capital: { en: "Funafuti", bn: "ফুনাফুটি" }
+  },
+  Uganda: {
+    country: { en: "Uganda", bn: "উগান্ডা" },
+    capital: { en: "Kampala", bn: "কাম্পালা" }
+  },
+  Ukraine: {
+    country: { en: "Ukraine", bn: "ইউক্রেন" },
+    capital: { en: "Kyiv", bn: "কিয়েভ" }
+  },
+  United_Arab_Emirates: {
+    country: { en: "United Arab Emirates", bn: "সংযুক্ত আরব আমিরাত" },
+    capital: { en: "Abu Dhabi", bn: "আবু ধাবি" }
+  },
+  United_Kingdom: {
+    country: { en: "United Kingdom", bn: "যুক্তরাজ্য" },
+    capital: { en: "London", bn: "লন্ডন" }
+  },
+  United_States: {
+    country: { en: "United States", bn: "যুক্তরাষ্ট্র" },
+    capital: { en: "Washington, D.C.", bn: "ওয়াশিংটন ডিসি" }
+  },
+  Uruguay: {
+    country: { en: "Uruguay", bn: "উরুগুয়ে" },
+    capital: { en: "Montevideo", bn: "মন্টেভিডিও" }
+  },
+  Uzbekistan: {
+    country: { en: "Uzbekistan", bn: "উজবেকিস্তান" },
+    capital: { en: "Tashkent", bn: "তাশকেন্দ" }
+  },
+  Vanuatu: {
+    country: { en: "Vanuatu", bn: "ভানুয়াতু" },
+    capital: { en: "Port Vila", bn: "পোর্ট ভিলা" }
+  },
+  Vatican_City: {
+    country: { en: "Vatican City", bn: "ভ্যাটিকান সিটি" },
+    capital: { en: "Vatican City", bn: "ভ্যাটিকান সিটি" }
+  },
+  Venezuela: {
+    country: { en: "Venezuela", bn: "ভেনেজুয়েলা" },
+    capital: { en: "Caracas", bn: "কারাকাস" }
+  },
+  Vietnam: {
+    country: { en: "Vietnam", bn: "ভিয়েতনাম" },
+    capital: { en: "Hanoi", bn: "হ্যানয়" }
+  },
+  Yemen: {
+    country: { en: "Yemen", bn: "ইয়েমেন" },
+    capital: { en: "Sana'a", bn: "সানা" }
+  },
+  Zambia: {
+    country: { en: "Zambia", bn: "জাম্বিয়া" },
+    capital: { en: "Lusaka", bn: "লুসাকা" }
+  },
+  Zimbabwe: {
+    country: { en: "Zimbabwe", bn: "জিম্বাবুয়ে" },
+    capital: { en: "Harare", bn: "হারারে" }
+  },
 };
