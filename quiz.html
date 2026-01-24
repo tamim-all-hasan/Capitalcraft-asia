@@ -11,10 +11,12 @@
   header h1 { margin:0; font-size:1.8em; }
   .language-switch button { margin:0 5px; padding:5px 10px; font-size:1em; cursor:pointer; border:none; border-radius:5px; }
   main { padding:20px; }
-  #options button { display:block; margin:10px auto; padding:10px 20px; font-size:1.2em; cursor:pointer; border:none; border-radius:8px; background:#2196F3; color:white; transition:0.2s; width:60%; max-width:300px; }
-  #options button:hover { background:#1976D2; }
-  #feedback { margin-top:15px; font-size:1.4em; height:30px; }
-  #score { margin-top:15px; font-size:1.2em; font-weight:bold; }
+  #question { font-size:1.4em; margin-bottom:15px; }
+  #options button { display:block; margin:10px auto; padding:10px 20px; font-size:1em; cursor:pointer; border:none; border-radius:5px; width:80%; max-width:300px; }
+  #feedback { font-size:1.2em; margin:10px; height:24px; }
+  #score { font-size:1.2em; margin-top:10px; }
+  #progress-container { width:80%; max-width:400px; height:15px; background:#ddd; margin:10px auto 20px; border-radius:8px; overflow:hidden; }
+  #progress-bar { height:100%; width:0%; background:#4CAF50; transition:width 0.3s ease; }
 </style>
 </head>
 <body>
@@ -28,6 +30,9 @@
 </header>
 
 <main>
+  <div id="progress-container">
+    <div id="progress-bar"></div>
+  </div>
   <h2 id="question">Question</h2>
   <div id="options"></div>
   <div id="feedback"></div>
@@ -41,71 +46,86 @@ let language = localStorage.getItem('lang') || 'en';
 let selectedContinent = localStorage.getItem('selectedContinent');
 if(!selectedContinent) window.location.href = 'index.html';
 
+// Mapping continents to countries (demo, replace with full)
 let continentMap = {
     'Asia':['India','China','Japan','Nepal','Indonesia'],
     'Europe':['France','Germany','Italy','Spain','Sweden'],
     'Africa':['Nigeria','Egypt','Kenya','South_Africa','Ghana'],
     'America':['USA','Canada','Brazil','Mexico','Argentina'],
     'Oceania':['Australia','New_Zealand','Fiji','Papua_New_Guinea','Samoa']
-}; // demo, full list replace করতে পারো
+};
 
-let countries = continentMap[selectedContinent];
+let countries = [...continentMap[selectedContinent]]; // copy array
+shuffleArray(countries); // optional shuffle
 let score = 0;
 let current = 0;
 
-// Set language
 function setLanguage(lang){
     language = lang;
     localStorage.setItem('lang', lang);
     updateQuiz();
 }
 
-// Update quiz question, options, feedback
+// Shuffle function
+function shuffleArray(arr){
+    for(let i=arr.length-1;i>0;i--){
+        let j = Math.floor(Math.random()*(i+1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+}
+
 function updateQuiz(){
+    // Quiz finished
     if(current >= countries.length){
         document.getElementById('question').innerText = (language==='bn')?'কুইজ শেষ!':'Quiz Over!';
         document.getElementById('options').innerHTML = '';
         document.getElementById('feedback').innerText = '';
-        document.getElementById('score').innerText = (language==='bn')?'আপনার স্কোর: '+score:'Your score: '+score;
+        document.getElementById('score').innerText = (language==='bn')?'আপনার স্কোর:':'Your score: '+score+'/'+countries.length;
+        document.getElementById('progress-bar').style.width = '100%';
         return;
     }
 
+    // Update progress bar
+    let progressPercent = ((current)/countries.length)*100;
+    document.getElementById('progress-bar').style.width = progressPercent+'%';
+
     let country = countries[current];
-    let correctCapital = (language==='bn') ? worldData[country].capital.bn : worldData[country].capital.en;
     document.getElementById('question').innerText = (language==='bn') ? 
         `দেশ: ${worldData[country].country.bn}` : `Country: ${worldData[country].country.en}`;
 
+    let correctCapital = (language==='bn') ? worldData[country].capital.bn : worldData[country].capital.en;
+
+    // Generate 4 options (including correct)
     let optionsDiv = document.getElementById('options');
     optionsDiv.innerHTML = '';
-    
-    // Generate 4 options
     let opts = [correctCapital];
     while(opts.length < 4){
         let randCountry = countries[Math.floor(Math.random()*countries.length)];
         let randCap = (language==='bn') ? worldData[randCountry].capital.bn : worldData[randCountry].capital.en;
         if(!opts.includes(randCap)) opts.push(randCap);
     }
-    opts = opts.sort(()=>Math.random()-0.5);
+    shuffleArray(opts);
 
     opts.forEach(opt=>{
         let btn = document.createElement('button');
         btn.innerText = opt;
         btn.onclick = ()=>{
-            if(opt === correctCapital){
+            if(opt===correctCapital){
                 score++;
                 document.getElementById('feedback').innerText = '✅';
             } else {
-                document.getElementById('feedback').innerText = (language==='bn') ? `❌ সঠিক উত্তর: ${correctCapital}` : `❌ Correct: ${correctCapital}`;
+                document.getElementById('feedback').innerText = '❌ ' + correctCapital;
             }
             current++;
-            setTimeout(updateQuiz, 700);
+            setTimeout(updateQuiz,700);
         };
         optionsDiv.appendChild(btn);
     });
 
-    document.getElementById('score').innerText = (language==='bn')?'স্কোর: '+score:'Score: '+score;
+    document.getElementById('score').innerText = (language==='bn')?'স্কোর:':'Score: '+score;
 }
 
+// Initialize
 updateQuiz();
 </script>
 </body>
