@@ -3,248 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>World Capitals Quiz</title>
-<style>
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#f4f6f8;
-}
-header{
-    position: sticky;
-    top:0;
-    background:#1e88e5;
-    color:white;
-    text-align:center;
-    padding:20px;
-    font-size:22px;
-    font-weight:bold;
-    z-index:1000;
-}
-.container{
-    padding:20px;
-}
-.question{
-    font-size:22px;
-    margin-bottom:20px;
-}
-.option{
-    background:white;
-    padding:15px;
-    border-radius:8px;
-    margin-bottom:10px;
-    cursor:pointer;
-    border:2px solid transparent;
-    transition:0.3s all;
-}
-.option:hover{
-    background:#e3f2fd;
-}
-.option.correct{
-    background:#e8f5e9;
-    border-color:green;
-}
-.option.wrong{
-    background:#ffebee;
-    border-color:red;
-}
-button{
-    padding:12px;
-    width:100%;
-    border:none;
-    border-radius:8px;
-    background:#1e88e5;
-    color:white;
-    font-size:16px;
-    cursor:pointer;
-    margin-top:15px;
-    transition:0.3s;
-}
-button:hover{
-    background:#1565c0;
-}
-.result{
-    text-align:center;
-    font-size:20px;
-    margin-top:20px;
-}
-.progress-container{
-    background:#ccc;
-    border-radius:8px;
-    height:20px;
-    width:100%;
-    margin-bottom:15px;
-}
-.progress-bar{
-    height:100%;
-    width:0%;
-    background:#1e88e5;
-    border-radius:8px;
-    transition:0.5s;
-}
-</style>
+<title>Quiz</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header id="header">
-  🌍 <span id="titleText">Quiz</span>
-
-  <select id="langSwitch" style="
-    float:right;
-    padding:5px;
-    border-radius:6px;
-    border:none;
-    font-size:14px;
-  ">
-    <option value="en">EN</option>
-    <option value="bn">বাংলা</option>
-  </select>
+<header>
+  <h1 id="quiz-title">Quiz</h1>
+  <div class="language-switch">
+    <button onclick="setLanguage('en')">English</button>
+    <button onclick="setLanguage('bn')">বাংলা</button>
+  </div>
 </header>
 
-<div class="container">
+<main>
+  <h2 id="question">Question</h2>
+  <div id="options"></div>
+  <div id="feedback"></div>
+  <div id="score"></div>
+</main>
 
-    <!-- Progress Bar -->
-    <div class="progress-container">
-        <div id="progressBar" class="progress-bar"></div>
-    </div>
-
-    <!-- Quiz Area -->
-    <div id="quizArea">
-        <div class="question" id="question"></div>
-        <div id="options"></div>
-    </div>
-
-    <!-- Result -->
-    <div class="result" id="result" style="display:none;"></div>
-    <button id="restartBtn" style="display:none;" onclick="restartQuiz()">🔄 Play Again</button>
-    <button onclick="location.href='index.html'" style="background:#43a047;">⬅️ Back to Continent Selection</button>
-
-</div>
-
-<!-- Data + Script -->
 <script src="data.js"></script>
+<script src="language.js"></script>
 <script>
-let selectedContinent = localStorage.getItem("selectedContinent");
-    let language = localStorage.getItem("language") || "en";
+let language = localStorage.getItem('lang') || 'en';
+let selectedContinent = localStorage.getItem('selectedContinent');
+if(!selectedContinent) window.location.href = 'index.html';
 
-const text = {
-  en: {
-    quiz: "Quiz",
-    question: "What is the capital of",
-    completed: "Quiz Completed!",
-    score: "Score",
-    playAgain: "Play Again"
-  },
-  bn: {
-    quiz: "কুইজ",
-    question: "এর রাজধানী কী",
-    completed: "কুইজ সম্পন্ন হয়েছে!",
-    score: "স্কোর",
-    playAgain: "আবার খেলুন"
-  }
-};
-document.getElementById("langSwitch").value = language;
+let continentMap = {
+    'Asia':['India','China','Japan','Nepal','Indonesia'],
+    'Europe':['France','Germany','Italy','Spain','Sweden'],
+    'Africa':['Nigeria','Egypt','Kenya','South_Africa','Ghana'],
+    'America':['USA','Canada','Brazil','Mexico','Argentina'],
+    'Oceania':['Australia','New_Zealand','Fiji','Papua_New_Guinea','Samoa']
+}; // demo, replace with full continent-wise
 
-document.getElementById("langSwitch").onchange = (e) => {
-  localStorage.setItem("language", e.target.value);
-  location.reload();
-};
+let countries = continentMap[selectedContinent];
+let score = 0;
+let current = 0;
 
-if(!selectedContinent){
-    window.location.href = "index.html";
+function setLanguage(lang){
+    language = lang;
+    localStorage.setItem('lang', lang);
+    updateQuiz();
 }
 
-// Pro Features
-let totalQuestions = worldData[selectedContinent].length;
-let correctSound = new Audio("sounds/correct.mp3");
-let wrongSound = new Audio("sounds/wrong.mp3");
-
-let remainingCountries = [...worldData[selectedContinent]];
-let score = 0;
-
-function shuffle(array){ return array.sort(()=>Math.random()-0.5); }
-
-function nextQuestion(){
-    if(remainingCountries.length===0){
-        document.getElementById("quizArea").style.display="none";
-        document.getElementById("result").innerText =
-  `🎉 ${selectedContinent} ${text[language].completed}\n${text[language].score}: ${score}/${totalQuestions}`;
-
-        document.getElementById("result").style.display="block";
-        document.getElementById("restartBtn").style.display="block";
+function updateQuiz(){
+    if(current >= countries.length){
+        document.getElementById('question').innerText = (language==='bn')?'কুইজ শেষ!':'Quiz Over!';
+        document.getElementById('options').innerHTML = '';
+        document.getElementById('score').innerText = (language==='bn')?'আপনার স্কোর:':'Your score: '+score;
         return;
     }
 
-    document.getElementById("quizArea").style.display="block";
+    let country = countries[current];
+    document.getElementById('question').innerText = (language==='bn') ? 
+        `দেশ: ${worldData[country].country.bn}` : `Country: ${worldData[country].country.en}`;
 
-    let idx = Math.floor(Math.random()*remainingCountries.length);
-    let current = remainingCountries.splice(idx,1)[0];
+    let correctCapital = (language==='bn') ? worldData[country].capital.bn : worldData[country].capital.en;
 
-    document.getElementById("titleText").innerText =
-  `${selectedContinent} ${text[language].quiz}`;
-
-document.getElementById("question").innerText =
-  language === "bn"
-    ? `${current.country} ${text[language].question}?`
-    : `${text[language].question} ${current.country}?`;
-
-    let options = [current.capital];
-    while(options.length<4){
-        let rand = worldData[selectedContinent][Math.floor(Math.random()*worldData[selectedContinent].length)].capital;
-        if(!options.includes(rand)) options.push(rand);
+    let optionsDiv = document.getElementById('options');
+    optionsDiv.innerHTML = '';
+    let opts = [correctCapital];
+    while(opts.length < 4){
+        let randCountry = countries[Math.floor(Math.random()*countries.length)];
+        let randCap = (language==='bn') ? worldData[randCountry].capital.bn : worldData[randCountry].capital.en;
+        if(!opts.includes(randCap)) opts.push(randCap);
     }
-    options = shuffle(options);
+    opts = opts.sort(()=>Math.random()-0.5);
 
-    const optionsDiv = document.getElementById("options");
-    optionsDiv.innerHTML="";
-
-    options.forEach(opt=>{
-        const div = document.createElement("div");
-        div.className="option";
-        div.innerText = opt;
-        div.onclick = ()=>checkAnswer(div,opt,current.capital);
-        optionsDiv.appendChild(div);
+    opts.forEach(opt=>{
+        let btn = document.createElement('button');
+        btn.innerText = opt;
+        btn.onclick = ()=>{
+            if(opt===correctCapital){score++; document.getElementById('feedback').innerText='✅';}
+            else document.getElementById('feedback').innerText='❌ ' + correctCapital;
+            current++;
+            setTimeout(updateQuiz,700);
+        };
+        optionsDiv.appendChild(btn);
     });
 
-    // Update progress bar
-    let done = totalQuestions - remainingCountries.length;
-    let progressPercent = (done/totalQuestions)*100;
-    document.getElementById("progressBar").style.width = progressPercent + "%";
+    document.getElementById('score').innerText = (language==='bn')?'স্কোর:':'Score: '+score;
 }
 
-function checkAnswer(el, selected, correct){
-    document.querySelectorAll(".option").forEach(o=>o.onclick=null);
-
-    if(selected===correct){
-        el.classList.add("correct");
-        score++;
-        correctSound.play();
-    } else {
-        el.classList.add("wrong");
-        wrongSound.play();
-        document.querySelectorAll(".option").forEach(o=>{
-            if(o.innerText===correct) o.classList.add("correct");
-        });
-    }
-
-    setTimeout(nextQuestion,900);
-}
-
-function restartQuiz(){
-    remainingCountries = [...worldData[selectedContinent]];
-    score=0;
-    document.getElementById("result").style.display="none";
-    document.getElementById("restartBtn").style.display="none";
-    document.getElementById("quizArea").style.display="block";
-    document.getElementById("progressBar").style.width = "0%";
-    nextQuestion();
-}
-
-// Start quiz
-nextQuestion();
-    document.getElementById("restartText").innerText =
-  text[language].playAgain;
-
+updateQuiz();
 </script>
 </body>
 </html>
