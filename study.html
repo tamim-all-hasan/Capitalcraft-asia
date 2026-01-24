@@ -3,66 +3,133 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Study Capitals</title>
-<link rel="stylesheet" href="style.css">
+<title>Study World Capitals</title>
 <style>
-  body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f9f9f9; text-align:center; }
-  header { background:#4CAF50; color:white; padding:15px 10px; position:sticky; top:0; }
-  header h1 { margin:0; font-size:1.8em; }
-  .language-switch button { margin:0 5px; padding:5px 10px; font-size:1em; cursor:pointer; border:none; border-radius:5px; }
-  main { padding:20px; }
-  #search { padding:10px; font-size:1em; width:80%; max-width:400px; margin-bottom:20px; border-radius:5px; border:1px solid #ccc; }
-  #country-list { list-style:none; padding:0; margin:0 auto; max-width:400px; text-align:left; }
-  #country-list li { padding:10px; border-bottom:1px solid #ddd; }
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f6f8;
+}
+header{
+    background:#1e88e5;
+    color:white;
+    text-align:center;
+    padding:20px;
+    font-size:22px;
+    font-weight:bold;
+}
+.container{
+    padding:20px;
+}
+button, select{
+    padding:12px;
+    font-size:16px;
+    border:none;
+    border-radius:8px;
+    margin-bottom:15px;
+    cursor:pointer;
+}
+button{
+    background:#1e88e5;
+    color:white;
+}
+button:hover{
+    background:#1565c0;
+}
+select{
+    width:100%;
+    margin-bottom:15px;
+}
+input{
+    padding:10px;
+    width:100%;
+    margin-bottom:15px;
+    border-radius:6px;
+    border:1px solid #ccc;
+    font-size:16px;
+}
+.list{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+.item{
+    background:white;
+    padding:12px;
+    border-radius:6px;
+    transition:0.2s;
+}
+.item:hover{
+    background:#e3f2fd;
+}
 </style>
 </head>
+
 <body>
 
-<header>
-  <h1 id="study-title">Study Capitals</h1>
-  <div class="language-switch">
-    <button onclick="setLanguage('en')">English</button>
-    <button onclick="setLanguage('bn')">বাংলা</button>
-  </div>
-</header>
+<header>📖 Study World Capitals</header>
 
-<main>
-  <input type="text" id="search" placeholder="Search..." onkeyup="filterList()">
-  <ul id="country-list"></ul>
-</main>
+<div class="container">
+    <button onclick="location.href='index.html'">⬅️ Back to Continent Selection</button>
+
+    <select id="continentSelect" onchange="filterByContinent()">
+        <option value="All">🌍 All Continents</option>
+        <option value="Asia">Asia</option>
+        <option value="Europe">Europe</option>
+        <option value="Africa">Africa</option>
+        <option value="North America">North America</option>
+        <option value="South America">South America</option>
+        <option value="Oceania">Oceania</option>
+    </select>
+
+    <input type="text" id="searchInput" placeholder="Search Country or Capital..." onkeyup="filterList()">
+
+    <div class="list" id="studyList"></div>
+</div>
 
 <script src="data.js"></script>
-<script src="language.js"></script>
 <script>
-let language = localStorage.getItem('lang') || 'en';
+// Build full study list dynamically
+let studyListDiv = document.getElementById("studyList");
+let allItems = [];
 
-function setLanguage(lang){
-    language = lang;
-    localStorage.setItem('lang', lang);
-    renderList();
+function buildStudyList(continent="All"){
+    studyListDiv.innerHTML="";
+    allItems=[];
+
+    for(let c in worldData){
+        if(continent==="All" || continent===c){
+            worldData[c].forEach(obj=>{
+                let div = document.createElement("div");
+                div.className="item";
+                div.innerText = `${obj.country} — ${obj.capital} (${c})`;
+                studyListDiv.appendChild(div);
+                allItems.push(div);
+            });
+        }
+    }
+}
+buildStudyList();
+
+// Continent filter
+function filterByContinent(){
+    let continent = document.getElementById("continentSelect").value;
+    buildStudyList(continent);
+    filterList();
 }
 
-function renderList(){
-    let list = document.getElementById('country-list');
-    list.innerHTML = '';
-    Object.keys(worldData).sort().forEach(c=>{
-        let li = document.createElement('li');
-        li.innerText = (language==='bn') ? 
-            `${worldData[c].country.bn} - ${worldData[c].capital.bn}` :
-            `${worldData[c].country.en} - ${worldData[c].capital.en}`;
-        list.appendChild(li);
-    });
-}
-
+// Search filter
 function filterList(){
-    let filter = document.getElementById('search').value.toLowerCase();
-    document.querySelectorAll('#country-list li').forEach(li=>{
-        li.style.display = li.innerText.toLowerCase().includes(filter) ? '' : 'none';
+    let val = document.getElementById("searchInput").value.toLowerCase();
+    allItems.forEach(item=>{
+        if(item.innerText.toLowerCase().includes(val)){
+            item.style.display="block";
+        } else {
+            item.style.display="none";
+        }
     });
 }
-
-// Initial render
-renderList();
 </script>
+
 </body>
 </html>
