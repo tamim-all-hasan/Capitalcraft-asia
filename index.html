@@ -4,79 +4,68 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>World Capitals Quiz</title>
-<link rel="stylesheet" href="style.css">
 <style>
-  body { font-family: Arial, sans-serif; margin:0; padding:0; text-align:center; background:#f2f2f2; }
-  header { background:#4CAF50; color:white; padding:15px 10px; position:sticky; top:0; }
-  header h1 { margin:0; font-size:1.8em; }
-  .language-switch button { margin:0 5px; padding:5px 10px; font-size:1em; cursor:pointer; border:none; border-radius:5px; }
-  main { padding:20px; }
-  #continents button { margin:10px; padding:10px 20px; font-size:1.2em; cursor:pointer; border:none; border-radius:8px; background:#2196F3; color:white; transition:0.2s; }
-  #continents button:hover { background:#1976D2; }
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f6f8;
+}
+header{
+    background:#1e88e5;
+    color:white;
+    text-align:center;
+    padding:20px;
+    font-size:22px;
+    font-weight:bold;
+}
+.container{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    padding:20px;
+}
+button{
+    padding:15px;
+    font-size:18px;
+    border:none;
+    border-radius:8px;
+    background:#1e88e5;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+button:hover{
+    background:#1565c0;
+}
+h2{
+    text-align:center;
+    margin-bottom:20px;
+}
 </style>
 </head>
 <body>
 
-<header>
-  <h1 id="title">World Capitals Quiz</h1>
-  <div class="language-switch">
-    <button onclick="setLanguage('en')">English</button>
-    <button onclick="setLanguage('bn')">বাংলা</button>
-  </div>
-</header>
+<header>🌍 World Capitals Quiz</header>
 
-<main>
-  <h2 id="select-continent">Select a Continent</h2>
-  <div id="continents">
-    <button data-continent="Asia">Asia</button>
-    <button data-continent="Europe">Europe</button>
-    <button data-continent="Africa">Africa</button>
-    <button data-continent="America">America</button>
-    <button data-continent="Oceania">Oceania</button>
-  </div>
-</main>
+<div class="container">
+    <h2>Select a Continent to Start Quiz</h2>
+    <button onclick="startQuiz('Asia')">🌏 Asia</button>
+    <button onclick="startQuiz('Europe')">🌍 Europe</button>
+    <button onclick="startQuiz('Africa')">🌍 Africa</button>
+    <button onclick="startQuiz('North America')">🌎 North America</button>
+    <button onclick="startQuiz('South America')">🌎 South America</button>
+    <button onclick="startQuiz('Oceania')">🌏 Oceania</button>
+    <button onclick="location.href='study.html'" style="background:#43a047;">📖 Study Capitals</button>
+</div>
 
-<script src="data.js"></script>
-<script src="language.js"></script>
 <script>
-let language = localStorage.getItem('lang') || 'en';
-
-// Mapping for continents
-const continentMapEnToBn = { 'Asia':'এশিয়া', 'Europe':'ইউরোপ', 'Africa':'আফ্রিকা', 'America':'আমেরিকা', 'Oceania':'ওশেনিয়া' };
-const continentMapBnToEn = { 'এশিয়া':'Asia', 'ইউরোপ':'Europe', 'আফ্রিকা':'Africa', 'আমেরিকা':'America', 'ওশেনিয়া':'Oceania' };
-
-// Set language
-function setLanguage(lang){
-    language = lang;
-    localStorage.setItem('lang', lang);
-    updateTexts();
+function startQuiz(continent){
+    // Save selected continent
+    localStorage.setItem("selectedContinent", continent);
+    // Go to quiz page
+    window.location.href = "quiz.html";
 }
-
-// Update all texts
-function updateTexts(){
-    document.getElementById('title').innerText = (language === 'bn') ? 'বিশ্ব রাজধানী কুইজ' : 'World Capitals Quiz';
-    document.getElementById('select-continent').innerText = (language === 'bn') ? 'মহাদেশ নির্বাচন করুন' : 'Select a Continent';
-
-    document.querySelectorAll('#continents button').forEach(btn=>{
-        let cont = btn.getAttribute('data-continent');
-        if(language==='bn'){
-            btn.innerText = continentMapEnToBn[cont];
-        } else {
-            btn.innerText = cont;
-        }
-    });
-}
-
-// Select continent and go to quiz
-document.querySelectorAll('#continents button').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-        let continent = btn.getAttribute('data-continent');
-        localStorage.setItem('selectedContinent', continent);
-        window.location.href = 'quiz.html';
-    });
-});
-
-updateTexts();
 </script>
+
 </body>
 </html>
