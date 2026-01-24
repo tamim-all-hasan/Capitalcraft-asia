@@ -86,7 +86,20 @@ button:hover{
 </head>
 <body>
 
-<header id="header">🌍 Quiz</header>
+<header id="header">
+  🌍 <span id="titleText">Quiz</span>
+
+  <select id="langSwitch" style="
+    float:right;
+    padding:5px;
+    border-radius:6px;
+    border:none;
+    font-size:14px;
+  ">
+    <option value="en">EN</option>
+    <option value="bn">বাংলা</option>
+  </select>
+</header>
 
 <div class="container">
 
@@ -112,6 +125,31 @@ button:hover{
 <script src="data.js"></script>
 <script>
 let selectedContinent = localStorage.getItem("selectedContinent");
+    let language = localStorage.getItem("language") || "en";
+
+const text = {
+  en: {
+    quiz: "Quiz",
+    question: "What is the capital of",
+    completed: "Quiz Completed!",
+    score: "Score",
+    playAgain: "Play Again"
+  },
+  bn: {
+    quiz: "কুইজ",
+    question: "এর রাজধানী কী",
+    completed: "কুইজ সম্পন্ন হয়েছে!",
+    score: "স্কোর",
+    playAgain: "আবার খেলুন"
+  }
+};
+document.getElementById("langSwitch").value = language;
+
+document.getElementById("langSwitch").onchange = (e) => {
+  localStorage.setItem("language", e.target.value);
+  location.reload();
+};
+
 if(!selectedContinent){
     window.location.href = "index.html";
 }
@@ -129,7 +167,9 @@ function shuffle(array){ return array.sort(()=>Math.random()-0.5); }
 function nextQuestion(){
     if(remainingCountries.length===0){
         document.getElementById("quizArea").style.display="none";
-        document.getElementById("result").innerText = `🎉 ${selectedContinent} Quiz Completed!\nScore: ${score}/${totalQuestions}`;
+        document.getElementById("result").innerText =
+  `🎉 ${selectedContinent} ${text[language].completed}\n${text[language].score}: ${score}/${totalQuestions}`;
+
         document.getElementById("result").style.display="block";
         document.getElementById("restartBtn").style.display="block";
         return;
@@ -140,8 +180,13 @@ function nextQuestion(){
     let idx = Math.floor(Math.random()*remainingCountries.length);
     let current = remainingCountries.splice(idx,1)[0];
 
-    document.getElementById("header").innerText = `🌍 ${selectedContinent} Quiz`;
-    document.getElementById("question").innerText = `What is the capital of ${current.country}?`;
+    document.getElementById("titleText").innerText =
+  `${selectedContinent} ${text[language].quiz}`;
+
+document.getElementById("question").innerText =
+  language === "bn"
+    ? `${current.country} ${text[language].question}?`
+    : `${text[language].question} ${current.country}?`;
 
     let options = [current.capital];
     while(options.length<4){
@@ -197,6 +242,9 @@ function restartQuiz(){
 
 // Start quiz
 nextQuestion();
+    document.getElementById("restartText").innerText =
+  text[language].playAgain;
+
 </script>
 </body>
 </html>
