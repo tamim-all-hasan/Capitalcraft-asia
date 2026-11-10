@@ -1,0 +1,13 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1020"><title>CapitalCraft — World Capitals</title><link rel="stylesheet" href="styles.css"></head><body>
+<header class="topbar"><nav class="nav"><a class="brand" href="index.html">🌍 Capital<span>Craft</span></a><div class="nav-actions"><a class="btn secondary" href="study.html">📖 Study</a><button class="icon-btn" id="themeToggle" onclick="toggleTheme()">☀️ Light</button></div></nav></header>
+<main class="wrap"><section class="hero"><div class="eyebrow">Learn • Practice • Remember</div><h1>Master the world,<br>one capital at a time.</h1><p>A simple, focused way to learn countries and capitals. Choose a continent, explore the list, then test what you remember.</p><div class="stats"><div class="stat"><strong id="countryTotal">195</strong><span>Countries in this set</span></div><div class="stat"><strong id="quizCount">0</strong><span>Quizzes completed</span></div><div class="stat"><strong id="bestScore">0%</strong><span>Personal best</span></div></div></section>
+<div class="section-head"><div><div class="eyebrow">Choose your region</div><h2>Start a quiz</h2><p>Questions are shuffled every time.</p></div><span class="count">6 continents</span></div>
+<div class="grid" id="continents"></div>
+<div class="section-head"><div><div class="eyebrow">Build your knowledge</div><h2>Study mode</h2><p>Search and filter all available country-capital pairs.</p></div></div><a class="btn secondary" href="study.html">Explore study library →</a>
+<div class="footer">CapitalCraft · Your progress stays on this device/browser.</div></main><script src="data.js"></script><script src="common.js"></script><script>
+const emojis={'Asia':'🌏','Europe':'🌍','Africa':'🌍','North America':'🌎','South America':'🌎','Oceania':'🌊'};
+const box=document.getElementById('continents');
+Object.entries(worldData).forEach(([name,items])=>{const a=document.createElement('a');a.className='continent';a.href='quiz.html?continent='+encodeURIComponent(name);a.innerHTML='<span class="emoji">'+emojis[name]+'</span><span><b>'+name+'</b><small>'+items.length+' countries · Start quiz →</small></span>';box.appendChild(a)});
+const total=Object.values(worldData).reduce((n,a)=>n+a.length,0),stats=getWorldStats();
+document.getElementById('countryTotal').textContent=total;document.getElementById('quizCount').textContent=stats.quizzes;document.getElementById('bestScore').textContent=stats.best+'%';
+</script></body></html>
